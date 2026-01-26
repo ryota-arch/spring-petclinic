@@ -5,7 +5,7 @@ pool:
   vmImage: ubuntu-latest
 
 variables:
-- group: petclinic-ocp
+- group: petclinic-ocp   # ← ★ここで読み込む
 
 steps:
 - script: |
