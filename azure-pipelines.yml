@@ -1,0 +1,25 @@
+trigger:
+- main
+
+pool:
+  vmImage: ubuntu-latest
+
+variables:
+- group: petclinic-ocp
+
+steps:
+- script: |
+    curl -L https://mirror.openshift.com/pub/openshift-v4/clients/ocp/latest/openshift-client-linux.tar.gz | tar zx
+    sudo mv oc /usr/local/bin/oc
+  displayName: Install oc CLI
+
+- script: |
+    oc login $(OCP_SERVER) \
+      --token=$(OCP_TOKEN) \
+      --insecure-skip-tls-verify=true
+  displayName: Login to OpenShift
+
+- script: |
+    oc project petclinic
+    oc start-build petclinic --from-dir=. --follow
+  displayName: Start OpenShift Build
