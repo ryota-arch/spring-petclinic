@@ -10,3 +10,7 @@ steps:
     ./mvnw clean package -DskipTests
   displayName: "Maven build"
 
+- script: |
+    docker version
+    docker build -t petclinic:local .
+  displayName: "Docker build"
