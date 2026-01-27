@@ -1,0 +1,12 @@
+trigger:
+- main
+
+pool:
+  name: Default
+
+steps:
+- script: |
+    ./mvnw -version
+    ./mvnw clean package -DskipTests
+  displayName: "Maven build"
+
