@@ -2,24 +2,13 @@ trigger:
 - main
 
 pool:
-  vmImage: ubuntu-latest
-
-variables:
-- group: petclinic-ocp   # ← ★ここで読み込む
+  name: Default
 
 steps:
-- script: |
-    curl -L https://mirror.openshift.com/pub/openshift-v4/clients/ocp/latest/openshift-client-linux.tar.gz | tar zx
-    sudo mv oc /usr/local/bin/oc
-  displayName: Install oc CLI
+- checkout: self
 
 - script: |
-    oc login $(OCP_SERVER) \
-      --token=$(OCP_TOKEN) \
-      --insecure-skip-tls-verify=true
-  displayName: Login to OpenShift
-
-- script: |
-    oc project petclinic
-    oc start-build petclinic --from-dir=. --follow
-  displayName: Start OpenShift Build
+    echo "JAVA_HOME=%JAVA_HOME%"
+    .\mvnw.cmd -version
+    .\mvnw.cmd clean package -DskipTests
+  displayName: "Maven build"
